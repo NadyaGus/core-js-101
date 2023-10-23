@@ -282,8 +282,31 @@ function isString(value) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let number;
+  if (value[1] === '♥' || value[2] === '♥') {
+    number = 26;
+  } else if (value[1] === '♦' || value[2] === '♦') {
+    number = 13;
+  } else if (value[1] === '♠' || value[2] === '♠') {
+    number = 39;
+  } else {
+    number = 0;
+  }
+  if (value[0] === 'A') {
+    number += 0;
+  } else if (value[0] === 'J') {
+    number += 10;
+  } else if (value[0] === 'Q') {
+    number += 11;
+  } else if (value[0] === 'K') {
+    number += 12;
+  } else if (value[0] === '1') {
+    number += 9;
+  } else {
+    number += +value[0] - 1;
+  }
+  return number;
 }
 
 module.exports = {
