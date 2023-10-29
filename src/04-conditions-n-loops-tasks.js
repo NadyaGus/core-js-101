@@ -140,8 +140,16 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  let result;
+  if (rect2.top > rect1.width || rect2.left > rect1.height) {
+    result = false;
+  } else if ((rect1.width + rect1.height) > (rect2.top + rect2.left)) {
+    result = true;
+  } else {
+    result = false;
+  }
+  return result;
 }
 
 /**
@@ -304,8 +312,20 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let result = 0;
+  const str = ccn.toString();
+  const even = str.length % 2;
+  for (let i = 0; i < str.length; i += 1) {
+    let number = +str[i];
+    if (i % 2 === even) {
+      number *= 2;
+      if (number > 9) {
+        number -= 9;
+      }
+    } result += number;
+  }
+  return +(result % 10) === 0;
 }
 
 /**
@@ -415,8 +435,8 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return (num).toString(n);
 }
 
 /**
@@ -431,8 +451,23 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const arr = [];
+  const result = [];
+  for (let i = 0; i < pathes.length; i += 1) {
+    const value = pathes[i].replaceAll('/', '/,').split(',');
+    arr.push(value);
+  }
+  for (let i = 0; i < arr.length - 1; i += 1) {
+    for (let j = 0; j < arr[i].length; j += 1) {
+      if (arr[i][j] === arr[i + 1][j]) {
+        result.push(arr[i][j]);
+      } else if (arr[i][j] !== arr[i + 1][j]) {
+        result.splice(j);
+      }
+    }
+  }
+  return `${result.join('')}`;
 }
 
 /**
@@ -487,8 +522,30 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const [row1, row2, row3] = position;
+  const [row1v1, row1v2, row1v3] = row1;
+  const [row2v1, row2v2, row2v3] = row2;
+  const [row3v1, row3v2, row3v3] = row3;
+  let result;
+  if (row1v1 === row1v2 && row1v2 === row1v3 && row1v1 !== undefined) {
+    result = row1v1;
+  } else if ((row2v1 === row2v2 && row2v2 === row2v3)) {
+    result = row2v1;
+  } else if ((row3v1 === row3v2 && row3v2 === row3v3)) {
+    result = row3v1;
+  } else if ((row1v1 === row2v1 && row2v1 === row3v1)) {
+    result = row1v1;
+  } else if ((row1v2 === row2v2 && row2v2 === row3v2)) {
+    result = row1v2;
+  } else if ((row1v3 === row2v3 && row2v3 === row3v3)) {
+    result = row1v3;
+  } else if ((row1v1 === row2v2 && row2v2 === row3v3)) {
+    result = row1v1;
+  } else if ((row1v3 === row2v2 && row2v2 === row3v1)) {
+    result = row1v3;
+  }
+  return result;
 }
 
 module.exports = {
